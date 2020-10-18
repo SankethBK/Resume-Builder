@@ -1,0 +1,45 @@
+{% extends 'blog/base.html' %}
+
+{% block sidebar %}
+{% endblock sidebar %}
+
+{% block content %}
+<h3 class = 'text-primary'>Here's your resume</h3>
+<div id = 'resume'>
+    <canvas id="myCanvas2" width="750" height="700" style="border:1px solid #000000; display:none;" ></canvas>
+    <div class = "row mx-0 my-3" id = "canvasImage" style = "background-color: darkgoldenrod; margin-bottom: 5px;">
+        <img style = "width:100%; border:2px solid rgb(0, 0, 255); " src = "" id = "targetImage"> 
+    </div>
+    <button id = 'download' class = "btn btn-success mb-5">Download</button>
+
+</div>
+{% endblock %}
+{% block script %}
+<script>
+    var canvas = document.getElementById('myCanvas2');
+    var ctx = canvas.getContext("2d");
+    var div = document.getElementById('resume');
+    var dataURL = localStorage.getItem('resumels');
+    var img = document.getElementById('targetImage');
+    img.src = dataURL;
+    img.onload = function () {
+        ctx.drawImage(img, 0, 0);
+    };
+
+    var downloadBtn = document.getElementById('download');
+    var saveBtn = document.getElementById('save');
+    var canvasData = document.getElementById('canvasData');
+
+    downloadBtn.addEventListener('click' , function(){
+        var canvas = document.getElementById("myCanvas2");
+        var image = canvas.toDataURL('image/png' , 1.0).replace('image/png' , 'image/octet-stream');
+        var link = document.createElement("a");
+        link.download = "my-resume.png";
+        link.href = image;
+        link.click();
+    });
+
+ 
+
+</script>
+{% endblock %}

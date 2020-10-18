@@ -1,0 +1,87 @@
+{% extends 'blog/base.html' %}
+
+{% block style %}
+<style>
+    .noeffect {
+        text-decoration: none;
+        color: black;
+    }
+
+    .noeffect:hover {
+        text-decoration: none;
+        color: black;
+    }
+</style>
+{% endblock %}
+{% block content %}
+<div>
+    <div class = "row justify-content-center">
+      <img class="rounded-circle account-img border border-primary p-1" src="{{ user.profile.image.url }}">
+    </div>
+
+    <p class = "row justify-content-center my-0">Name: {{user.username}}</p>
+    <p class = "row justify-content-center">Email: {{ user.email}}</p>
+
+    <div class = "row">
+        <div class = "col text-center border border-black">
+            <h3>{{ posts.count }}</h3>
+            <small>posts</small>
+        </div>
+        <div class = "col text-center border border-black">
+            <a class = "noeffect" href = "{% url 'followers' user.username  %}"><h3>{{ followers|length }}</h3>
+            <small>Followers</small></a>
+        </div>
+        <div class = "col text-center border border-black">
+            <a class = "noeffect" href = "{% url  'following' user.username %}"><h3>{{ following|length }}</h3>
+            <small>Following</small></a>
+        </div>
+    </div>
+
+    {% if user.profile.resume %}
+    <br/>
+    <p class = "row justify-content-center my-2" >Resume</p>
+    <div class = "row justify-content-center">
+        <img src = "{{ user.profile.resume.url }}" class = "img-fluid" style = "width:30%; height: 30%;">
+    </div>
+    {% endif %}
+
+    <br/>
+    {% if not isSelf %}
+        {% if isFollowing %}
+            <a href = "{% url 'unfollow' user.id %}" class = "row" ><button class = " btn btn-danger" style = "position: relative; left:10%; width:80%;">Unfollow</button></a>
+        {% else %}
+            <a href = "{% url 'follow' user.id%}" class = "row" ><button class = " btn btn-primary" style = "position: relative; left:10%; width:80%;">Follow</button></a>
+        {% endif %}
+    {% endif %}   
+    
+    
+
+</div>
+<br/>
+<br/>
+<br/>
+<div class = "row">
+
+{% if posts %}
+
+<h2 class = "font-weight-bold" style = "position: relative; left: 38%">Posts</h2>
+<br/>
+{% for post in posts %}
+<article class="media content-section">
+    <img class="rounded-circle article-img" src="{{ post.author.profile.image.url }}">
+    <div class="media-body">
+        <div class="article-metadata">
+            <a class="mr-2" href="{% url 'viewprofile' post.author.id %}">{{ post.author }}</a>
+            <small class="text-muted">{{ post.date_posted|date:"F d, Y" }}</small>
+        </div>
+        <h2><a class="article-title" href="{% url 'post-detail' post.id %}">{{ post.title }}</a></h2>
+        <p class="article-content">{{ post.content }}</p>
+    </div>
+</article>
+{% endfor %}
+</div>
+{% else %}
+    <h3>Your posts will appear here</h3>
+{% endif %}
+
+{% endblock content %}

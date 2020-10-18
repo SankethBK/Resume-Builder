@@ -1,0 +1,23 @@
+{% extends 'blog/base.html' %}
+
+{% block content %}
+
+{% if followers %}
+    <h2>Followers</h2>
+{% else %}
+    <h2>Following</h2>
+{% endif %}
+    <div class = "container">
+    {% for user in List %}
+        <div class = "row border border-success my-1">
+            <div class = "col-md-4">
+                <img class="rounded-circle account-img border border-primary p-1" src="{{ user.profile.image.url }}">
+            </div>
+            <div class = "col-md-8">
+                <a href = "{% url 'viewprofile' user.id %}"><h4 class = text-info">{{ user.username }}</h4></a>
+            </div>
+        </div>
+    {% endfor %}
+    </div>
+
+{% endblock %}

@@ -1,0 +1,79 @@
+{% extends 'blog/base.html' %}
+{% block sidebar %}{% endblock sidebar %}
+
+{% block style %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+     <style>
+          div.hv:hover {
+               border: 1px solid rgb(36, 3, 88);
+          }   
+     </style>
+
+{% endblock style %}
+{% block content %}
+
+
+<div class = "row">
+     <h4 class = "text-primary mx-1">Choose your template</h4>
+     <form method = "POST">{% csrf_token %}
+     <div>
+         {% for resume in resume_templates %}
+     
+               {% if forloop.counter0|divisibleby:4 %}
+                    {% if forloop.counter0 != 0 %}
+                      </div>
+                    {% endif %}
+                    <div class="row m-2">
+               {% endif %}
+               <div class="col-md-3 col-sm-3 col-xs-3  p-3 hv " id = "{{ resume.id}}">
+                    <input type = "radio" name = "sample"  class = "" value = "{{ resume.id}}"><img src = "/media/{{resume.img}}" id = "{{ resume.id}}"  class = "img-fluid" height = "180">  
+               </div>
+         {% endfor %} 
+         
+
+      
+          </div>
+     </div>
+     <button type = "submit" class = "btn btn-danger my-3">Go</button>
+     </form>
+</div>
+{% endblock %}
+
+{% block script %}
+<script>
+     var inputs = document.getElementsByTagName('input');
+
+     for (var i = 0 ; i < inputs.length ; ++i){
+          inputs[i].style.display = "none";     
+     }
+
+     var images = document.getElementsByTagName('img');
+
+     for (var i = 0; i < images.length ; ++i){
+          images[i].addEventListener('click' , function(){
+               id = this.getAttribute('id');
+               var y = $("input[value=" + id + "]");
+               y[0].checked = true;
+               markChecked();
+          });       
+     }
+
+     function markChecked(){
+         
+         var allInputs = document.getElementsByClassName('hv');
+         for (var i = 0; i < allInputs.length ; ++i){
+              allInputs[i].style.border = "";
+         }
+         var checkedRadio = $('input[type="radio"]:checked');
+         var id = checkedRadio[0].getAttribute('value');
+         var d = $("div[id=" + id + "]");
+         if (d.length > 0){
+              d[0].style.border = "2px solid green";
+         }
+
+     }
+
+
+</script>
+
+{% endblock script %}

@@ -1,0 +1,87 @@
+{% extends 'blog/base.html' %}
+
+{% block sidebar %}
+{% endblock sidebar %}
+
+{% block content %}
+<button style = "position:fixed; right:0" id = 'preview' class = 'btn btn-info btn-lg'>Preview</button>
+<button style = "position:fixed; right:0;display:none;" id = 'back' class = 'btn btn-info btn-lg'>Back</button>
+
+
+<canvas  style = "display:none;" id="myCanvas" width="750" height="700" style="border:1px solid #000000;" class = "my-3"></canvas>
+
+<div class = "row mx-0 my-3" id = "canvasImage" style = "background-color: darkgoldenrod; margin-bottom: 5px;">
+    <img style = "width:100%; border:2px solid rgb(0, 0, 255); " src = "" id = "targetImage"> 
+</div>
+
+
+<form method = 'POST' >
+    {% csrf_token %}
+    <h3>General details</h3>
+    <div class = "form-group">
+        <label for = "name">Name</label>
+        <input id = "name" class = "form-control" maxlength="25" placeholder = "Enter your name">
+    </div>
+    <div class = "form-group">
+        <label for = "email">Email</label>
+        <input id = "email" type="email" class = "form-control" maxlenght="35" maxlength = "25" placeholder = "Enter your email">
+    </div>
+    <div class = "form-group">
+        <label for = "phone">Phone</label>
+        <input id = "phone" maxlength="15" class = "form-control" placeholder= "Enter your phone">
+    </div>
+    <div class = "form-group">
+        <label for = "linkedin">Linkedin</label>
+        <input id = "linkedin" maxlength="40" class = "form-control" placeholder = "Enter your linkedin url">
+    </div>
+    <h3>Skills</h3>
+    <div class = "form-group">
+        <label for = "skills">Skills</label>
+        <input id = "skills" maxlength="100" class = "form-control" placeholder = "eg : python , java , leadership ...">
+    </div>
+    <h3>Education</h3>
+    <div class = "form-group">
+        <label for = "degree">Degree</label>
+        <input id = "degree" maxlength="20" class = "form-control" placeholder = "Enter your degree">
+    </div>
+    <div class = "form-group">
+        <label for = "field">Field</label>
+        <input id = "field"  maxlength="20" class = "form-control" placeholder = "Enter your field ">
+    </div>
+    <div class = "form-group">
+        <label for = "gradyear">Graduation Yearr</label>
+        <input id = "gradyear" class = "form-control" placeholder = "Enter your graduation year">
+    </div>
+    <div class = "form-group">
+        <label for = "university">University</label>
+        <input id = "university"  maxlength="20" class = "form-control" placeholder = "Enter your university">
+    </div>
+    <div class = "form-group">
+        <label for = "highschool">high school</label>
+        <input id = "highschool" maxlength="20" class = "form-control" placeholder = "Enter your high school">
+    </div>
+    <h3>Other details</h3>
+    <div class = "form-group">
+        <label for = "professionalsummary">professional Summary</label>
+        <textarea id = "professionalsummary" rows="5" cols="50" maxlength="250" class = "form-control" placeholder = "Enter your professtional Summary"></textarea>
+    </div>
+    <div class = "form-group">
+        <label for = "projects">Projects</label>
+        <textarea id = "projects" rows="5" cols="50" maxlength="250" class = "form-control" placeholder = "Enter your Projects"></textarea>
+    </div>
+    <div class = "form-group">
+        <label for = "workexperience">Work Experience</label>
+        <textarea id = "workexperience" rows="5" cols="50" maxlength="250" class = "form-control" placeholder = "Enter your work experience"></textarea>
+    </div>  
+    <div class = "form-group">
+        <label for = "achievements">Achievements</label>
+        <textarea id = "achievements"  rows="5" cols="50" maxlength="250" class = "form-control" placeholder = "Enter your work achiements"></textarea>
+    </div>      
+    
+    <button id = 'finish' type = 'submit' class = "btn btn-success mb-4">Finish</button>
+</form>
+{% endblock content %}
+{% block script %}
+{% load static %}
+<script src="{% static '' %}/javascript/{{ resume.jsFile }}"></script>
+{% endblock %}

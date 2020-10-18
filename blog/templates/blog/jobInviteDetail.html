@@ -1,0 +1,48 @@
+{% extends 'blog/base.html' %}
+
+{% block content %}
+    <article class="media content-section">
+    <img class = "rounded-circle article-img" src = "{{ jobinvite.author.profile.image.url }}">
+        <div class="media-body">
+        <div class="article-metadata">
+            <a class="mr-2" href="{% url 'user-posts' jobinvite.author.username %}">{{ jobinvite.author }}</a>
+            <small class="text-muted">{{ jobinvite.date_posted|date:"F d, Y" }}</small>
+            {% if jobinvite.author == user %}
+              <div>
+                <a class = "btn btn-secondary btn-sm mt-1 mb-1" href = "{% url 'jobinvite-update' jobinvite.id %}">Update</a>
+                <a class = "btn btn-danger btn-sm mt-1 mb-1" href = "{% url 'jobinvite-delete' jobinvite.id %}">Delete</a>
+              </div>
+            {% endif %}
+        </div>
+        <h2 class="article-title">{{ jobinvite.title }}</h2>
+        <div class = "container p-0">
+            {% for tag in jobinvite.tags %}
+       
+                  {% if forloop.counter0|divisibleby:2 %}
+                       {% if forloop.counter0 != 0 %}
+                         </div>
+                       {% endif %}
+                       <div class="row m-2">
+                  {% endif %}
+                  <div class="col-md-6 col-sm-6 col-xs-6 my-0" style align = "center">
+                       <p class = "border border-primary" style = "background-color:#d9d2bf; margin-bottom: 0%;">{{ tag }}</p>
+                  </div>
+            {% endfor %} 
+            
+   
+         
+            </div>
+        </div>
+        <p class="article-content">{{ jobinvite.content }}</p>
+        {% if isOwner %}
+          <a class = "btn btn-primary" href = "{% url 'jobinvite-applicants' jobinvite.id %}">View Applicants</a>
+        {% else %}
+          {% if applied %}
+            <p>You have already applied for this job</p>
+          {% else %}
+            <a class = "btn btn-primary" href = "{% url 'jobinvite-apply' jobinvite.id %}">Apply</a>
+          {% endif %}
+        {% endif %}
+    </article>
+
+{% endblock content %}
